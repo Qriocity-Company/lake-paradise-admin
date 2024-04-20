@@ -40,6 +40,7 @@ router.post('/register',async (req, res) => {
 
 // ROUTE 2 : Authenticating a user using : POST "/api/auth/login". No login required
 router.post('/login',async (req,res)=>{
+  console.log('hi')
 
     let success=false;
     

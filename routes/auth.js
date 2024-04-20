@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 dotenv.config();
 
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = "ppxINJA334ASasd";
 const router = express.Router();
 
 router.post('/register',async (req, res) => {

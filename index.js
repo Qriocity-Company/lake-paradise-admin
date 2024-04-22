@@ -7,6 +7,7 @@ const connectToMongo = require('./db')
 const authRoutes = require('./routes/auth')
 const dateRoutes = require('./routes/dateRoutes')
 const hotelRoutes = require('./routes/hotelRoutes')
+const messagesRoutes = require('./routes/messages')
 
 dotenv.config();
 const app = express();
@@ -29,7 +30,7 @@ if (process.env.NODE_ENV === "production") {
 app.use('/auth',authRoutes);
 app.use('/date',dateRoutes);
 app.use('/hotel',hotelRoutes);
-
+app.use('/messages',messagesRoutes);
 
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);

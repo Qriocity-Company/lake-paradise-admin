@@ -162,13 +162,14 @@ router.post('/update-default-price', async (req, res) => {
         return res.status(400).json({ success: false, error: 'Unauthorized User!' });
       }
   
-      let hotel = Hotel.findById(hotelId);
+      let hotel = await Hotel.findById(hotelId);
+      
       if(!hotel){
           return res.status(402).json({ success: false, error: 'Hotel Not Found!' });
       }
   
       hotel.defaultPrice=price;
-      hotel.save();
+      await hotel.save();
       return res.status(200).json({ success: true, message: "Default Price Updated" });
     } catch (err) {
       return res.status(500).json({ success: false, error: err.message });

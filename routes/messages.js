@@ -8,7 +8,7 @@ dotenv.config();
 
 const router = express.Router();
 
-const resend = new Resend('re_S5gNkse1_23WbYRUbBki1BLPte3ehz2gJ');
+const resend = new Resend('re_Ao7SaBzg_DhLvGhe3ZCreTYYxeYPScufJ');
 
 router.post('/send-message', async (req, res) => {
     try {
@@ -35,12 +35,12 @@ router.post('/send-message', async (req, res) => {
       });
   
       const savedMessage = await newMessage.save();
-        console.log("reached here");
+      console.log("reached here");
       //sending email
 
       const { data, error } = await resend.emails.send({
         from: 'Lake Paradise Website <onboarding@resend.dev>',
-        to: ['negiaditya1234@gmail.com'],
+        to: ['lakeparadise.al@gmail.com'],
         subject: 'New Message Received',
         html: `<strong>New message received:</strong><br>Date: ${date}<br>Checkin Date: ${checkinDate}<br>Checkout Date: ${checkoutDate}<br>Promo Code: ${promoCode}<br>Phone Number: ${phoneNumber}<br>Adults: ${adults}<br>Children: ${children}<br>Message: ${message}`,
       });

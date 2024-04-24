@@ -107,6 +107,68 @@ router.post('/update-hotel-images', async (req, res) => {
 });
 
 
+router.post('/add-hotel-images', async (req, res) => {
+  try {
+     const { userId, imagesData, hotelId } = req.body;
+ 
+     // Find the user by ID
+     const user = await User.findById(userId);
+     if (!user) {
+       return res.status(400).json({ success: false, error: 'Unauthorized User!' });
+     }
+ 
+     // Find the hotel by ID
+     const hotel = await Hotel.findById(hotelId);
+     if (!hotel) {
+       return res.status(402).json({ success: false, error: 'Hotel Not Found!' });
+     }
+ 
+     // Add the new images to the hotel's existing images
+     hotel.hotelImages = [...hotel.hotelImages, ...imagesData];
+     await hotel.save();
+ 
+     return res.status(200).json({ success: true, message: "Images Added" });
+  } catch (err) {
+     return res.status(500).json({ success: false, error: err.message });
+  }
+ });
+
+ router.delete('/delete-hotel-image/:imageId', async (req, res) => {
+  try {
+     const { userId, hotelId } = req.body;
+     const { imageId } = req.params; // Extract the image ID from the request parameters
+ 
+     // Find the user by ID
+     const user = await User.findById(userId);
+     if (!user) {
+       return res.status(400).json({ success: false, error: 'Unauthorized User!' });
+     }
+ 
+     // Find the hotel by ID
+     const hotel = await Hotel.findById(hotelId);
+     if (!hotel) {
+       return res.status(402).json({ success: false, error: 'Hotel Not Found!' });
+     }
+ 
+     // Find the image to be deleted
+     const imageToDelete = hotel.hotelImages.id(imageId);
+ 
+     // Check if the image exists in the hotel's images
+     if (!imageToDelete) {
+       return res.status(404).json({ success: false, error: 'Image Not Found!' });
+     }
+ 
+     // Remove the image from the hotel's images
+     imageToDelete.remove();
+     await hotel.save();
+ 
+     return res.status(200).json({ success: true, message: "Image Deleted" });
+  } catch (err) {
+     return res.status(500).json({ success: false, error: err.message });
+  }
+ });
+
+
 router.post('/update-bottom-banner', async (req, res) => {
     try {
       const { imgUrl,userId,hotelId } = req.body;

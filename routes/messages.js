@@ -20,7 +20,8 @@ router.post('/send-message', async (req, res) => {
         phoneNumber,
         adults,
         children,
-        message
+        message,
+        email
       } = req.body;
   
       const newMessage = new Message({
@@ -31,7 +32,8 @@ router.post('/send-message', async (req, res) => {
         phoneNumber,
         adults,
         children,
-        message
+        message,
+        email
       });
   
       const savedMessage = await newMessage.save();

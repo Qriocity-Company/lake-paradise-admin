@@ -26,6 +26,9 @@ const MessageSchema = new mongoose.Schema({
   },
   message: {
     type: String
+  },
+  email:{
+    type:String
   }
 });
 

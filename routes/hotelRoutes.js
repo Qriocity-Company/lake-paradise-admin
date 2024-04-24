@@ -194,4 +194,93 @@ router.get('/get-default-price/:hotelId', async (req, res) => {
   }
 });
 
+
+
+router.post('/update-features-content', async (req, res) => {
+  try {
+    const { title, userId, hotelId, content } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ success: false, error: 'Unauthorized User!' });
+    }
+
+    let hotel = await Hotel.findById(hotelId);
+
+    if (!hotel) {
+      return res.status(402).json({ success: false, error: 'Hotel Not Found!' });
+    }
+
+    // Find the feature with matching title
+    const featureIndex = hotel.featuresContent.findIndex(feature => feature.title === title);
+
+    if (featureIndex === -1) {
+      return res.status(404).json({ success: false, error: 'Feature Not Found!' });
+    }
+
+    // Update the content of the found feature
+    hotel.featuresContent[featureIndex].content = content;
+
+    // Save the updated hotel object
+    await hotel.save();
+
+    return res.status(200).json({ success: true, message: 'Features Content Updated Successfully' });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+
+router.post('/create-features-content', async (req, res) => {
+  try {
+    const { title,userId,hotelId,content } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ success: false, error: 'Unauthorized User!' });
+    }
+
+    let hotel = await Hotel.findById(hotelId);
+    
+    if(!hotel){
+        return res.status(402).json({ success: false, error: 'Hotel Not Found!' });
+    }
+
+    hotel.featuresContent.push({
+      title:title,
+      content:content
+    })
+
+    await hotel.save();
+    return res.status(200).json({ success: true, message: "Feature Content Added" });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+router.post('/get-hotel-features', async (req, res) => {
+  try {
+    const {userId,hotelId} = req.body;
+
+    const user = await User.findById(userId);
+    console.log(user)
+    console.log(userId)
+    if (!user) {
+      return res.status(400).json({ success: false, error: 'Unauthorized User!' });
+    }
+
+    let hotel = await Hotel.findById(hotelId);
+    
+    if(!hotel){
+        return res.status(402).json({ success: false, error: 'Hotel Not Found!' });
+    }
+
+    const features = hotel.featuresContent;
+
+    return res.status(200).json({ success: true, message: "Features Fetched", features });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 module.exports = router;

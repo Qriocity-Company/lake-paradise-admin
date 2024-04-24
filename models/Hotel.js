@@ -35,7 +35,17 @@ const HotelSchema = new mongoose.Schema({
   defaultPrice:{
     type:String,
     default:"499.99"
-  }
+  },
+  featuresContent: [{
+    title: {
+      type: String,
+      required: false // Assuming title is always required
+    },
+    content: {
+      type: [String],
+      required: false // Assuming content is always required
+    }
+  }]
 });
 
 const HotelModel = mongoose.model('Hotel', HotelSchema);
